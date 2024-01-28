@@ -6,9 +6,16 @@ authors = ["avisionh <a_vision@hotmail.co.uk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.13"
 pre-commit = "^3.6.0"
 detect-secrets = "^1.4.0"
+langchain = "^0.1.4"
+python-dotenv = "^1.0.1"
+google-cloud-bigquery = "^3.17.1"
+google-cloud-bigquery-storage = "^2.24.0"
+sqlalchemy-bigquery = "^1.9.0"
+langchain-openai = "^0.0.5"
+langchain-community = "^0.0.16"
 
 
 [build-system]

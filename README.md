@@ -11,8 +11,13 @@ Create a service account key for the project in GCP that you want to access [her
 
 Update the `src/constants.py` file with the project and dataset that teh service account key as access to.
 
-Now set-up the project by runnng the following:
+Now set-up the project by running the following:
 ```commandline
-poetry shell
-poetry run
+make setup-local
+```
+
+### Getting data from SQL
+To ask the chatGPT API a question about your data, run the following in your terminal:
+```commandline
+poetry run python main.py --user_question "<your_question>"
 ```

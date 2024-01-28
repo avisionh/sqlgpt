@@ -1,4 +1,5 @@
 import os
+import argparse
 from dotenv import load_dotenv
 
 from datetime import datetime
@@ -22,10 +23,21 @@ toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
 agent = create_sql_agent(llm=llm, toolkit=toolkit, verbose=True, top_k=100)
 
-start_time = datetime.now()
-agent.invoke(input={"input": "How many users are there for 2023?"})
-end_time = datetime.now()
-print(
-    f"It took me {(end_time - start_time).total_seconds()} seconds "
-    f"to think through your question and give you an answer."
-)
+
+if __name__ == """__main__""":
+    argp = argparse.ArgumentParser()
+    argp.add_argument(
+        "-uq",
+        "--user_question",
+        type=str,
+        help="What's the data question you want to ask?",
+    )
+    args = argp.parse_args()
+
+    start_time = datetime.now()
+    agent.invoke(input={"input": args.user_question})
+    end_time = datetime.now()
+    print(
+        f"It took me {(end_time - start_time).total_seconds()} seconds "
+        f"to think through your question and give you an answer."
+    )

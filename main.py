@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 
+from datetime import datetime
+
 from src.constants import SQLALCHEMY_URL, GPT_MODEL
 
 from langchain.sql_database import SQLDatabase
@@ -20,4 +22,10 @@ toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
 agent = create_sql_agent(llm=llm, toolkit=toolkit, verbose=True, top_k=100)
 
+start_time = datetime.now()
 agent.invoke(input={"input": "How many users are there for 2023?"})
+end_time = datetime.now()
+print(
+    f"It took me {(end_time - start_time).total_seconds()} seconds "
+    f"to think through your question and give you an answer."
+)

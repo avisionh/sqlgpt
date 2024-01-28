@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "sqlgpt"
+version = "0.1.0"
+description = "Translating natural language into a query and executing the query in a database"
+authors = ["avisionh <a_vision@hotmail.co.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pre-commit = "^3.6.0"
+detect-secrets = "^1.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

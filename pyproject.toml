@@ -15,6 +15,7 @@ google-cloud-bigquery-storage = "^2.24.0"
 sqlalchemy-bigquery = "^1.9.0"
 langchain-community = "^0.0.16"
 streamlit = "^1.36.0"
+watchdog = "^4.0.1"
 
 
 [build-system]

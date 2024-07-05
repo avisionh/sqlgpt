@@ -1,27 +1,38 @@
 import os
 import argparse
-from dotenv import load_dotenv
 
 from datetime import datetime
 
-from src.constants import SQLALCHEMY_URL, GPT_MODEL
+import src.constants as constants
 
 from langchain.sql_database import SQLDatabase
-
-from langchain_openai import ChatOpenAI
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
+
+from langchain_community.chat_models import ChatOllama
 from langchain.agents import create_sql_agent
+from langchain.agents.agent_types import AgentType
 
 
-# pass in API key
-load_dotenv(dotenv_path=".env")
-API_KEY = os.environ.get("OPENAI_API_KEY")
-
-db = SQLDatabase.from_uri(database_uri=SQLALCHEMY_URL)
-llm = ChatOpenAI(model=GPT_MODEL, temperature=0, api_key=API_KEY)
+db = SQLDatabase.from_uri(
+    database_uri=constants.SQLALCHEMY_URL, sample_rows_in_table_info=15
+)
+llm = ChatOllama(
+    base_url=constants.OLLAMA_HOST_LOCAL,
+    model=constants.LLM_MODEL,
+    top_k=constants.TOP_K,
+    top_p=constants.TOP_P,
+    temperature=constants.TEMPERATURE,
+    repeat_penalty=constants.REPEAT_PENALTY,
+)
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 
-agent = create_sql_agent(llm=llm, toolkit=toolkit, verbose=True, top_k=100)
+agent = create_sql_agent(
+    llm=llm,
+    toolkit=toolkit,
+    agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True,
+    handle_parsing_errors=True,
+)
 
 
 if __name__ == """__main__""":

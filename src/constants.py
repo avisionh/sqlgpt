@@ -5,4 +5,9 @@ SQLALCHEMY_URL = (
     f"bigquery://{PROJECT}/{DATASET}?credentials_path={SERVICE_ACCOUNT_FILE}"
 )
 
-GPT_MODEL = "gpt-3.5-turbo-1106"
+LLM_MODEL = "llama3:8b"
+OLLAMA_HOST_LOCAL = "http://localhost:11434"
+TOP_K = 30
+TOP_P = 0.9
+TEMPERATURE = 0.2
+REPEAT_PENALTY = 0.9

@@ -1,8 +1,3 @@
-import os
-import argparse
-
-from datetime import datetime
-
 import src.constants as constants
 
 from langchain.sql_database import SQLDatabase
@@ -11,6 +6,9 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.chat_models import ChatOllama
 from langchain.agents import create_sql_agent
 from langchain.agents.agent_types import AgentType
+
+import streamlit as st
+from langchain_community.callbacks import StreamlitCallbackHandler
 
 
 db = SQLDatabase.from_uri(
@@ -34,21 +32,27 @@ agent = create_sql_agent(
     handle_parsing_errors=True,
 )
 
+st.title(body="sqlGPT")
 
-if __name__ == """__main__""":
-    argp = argparse.ArgumentParser()
-    argp.add_argument(
-        "-uq",
-        "--user_question",
-        type=str,
-        help="What's the data question you want to ask?",
-    )
-    args = argp.parse_args()
+# initialise chat history
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-    start_time = datetime.now()
-    agent.invoke(input={"input": args.user_question})
-    end_time = datetime.now()
-    print(
-        f"It took me {(end_time - start_time).total_seconds()} seconds "
-        f"to think through your question and give you an answer."
-    )
+# display chat messages from history on app rerun
+for message in st.session_state.messages:
+    with st.chat_message(name=message["role"]):
+        st.markdown(body=message["content"])
+    # react to user input
+    if question := st.chat_input(placeholder="Enter our question"):
+        # display user message in chat message container
+        with st.chat_message(name="user", avatar="💅"):
+            st.markdown(body=question)
+        # add user message to chat message
+        st.session_state.messages.append({"role": "user", "content": question})
+        # add chatbot's response, displaying in message container
+        with st.chat_message(name="ai", avatar="🦖"):
+            st_callback = StreamlitCallbackHandler(st.container())
+            response = agent.run(question, callbacks=[st_callback])
+            st.write(response)
+        # add chatbot's response to chat history
+        st.session_state.messages.append({"role": "ai", "content": response})

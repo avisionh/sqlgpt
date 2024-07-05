@@ -12,6 +12,8 @@ from langchain_community.callbacks import StreamlitCallbackHandler
 
 
 def run_app():
+    st.title(body="sqlGPT")
+
     db = SQLDatabase.from_uri(
         database_uri=constants.SQLALCHEMY_URL, sample_rows_in_table_info=15
     )
@@ -30,10 +32,7 @@ def run_app():
         toolkit=toolkit,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         verbose=True,
-        handle_parsing_errors=True,
     )
-
-    st.title(body="sqlGPT")
 
     # initialise chat history
     if "messages" not in st.session_state:
@@ -43,17 +42,21 @@ def run_app():
     for message in st.session_state.messages:
         with st.chat_message(name=message["role"]):
             st.markdown(body=message["content"])
-        # react to user input
-        if question := st.chat_input(placeholder="Enter our question"):
-            # display user message in chat message container
-            with st.chat_message(name="user", avatar="💅"):
-                st.markdown(body=question)
-            # add user message to chat message
-            st.session_state.messages.append({"role": "user", "content": question})
-            # add chatbot's response, displaying in message container
-            with st.chat_message(name="ai", avatar="🦖"):
-                st_callback = StreamlitCallbackHandler(st.container())
-                response = agent.run(question, callbacks=[st_callback])
-                st.write(response)
-            # add chatbot's response to chat history
-            st.session_state.messages.append({"role": "ai", "content": response})
+    # react to user input
+    if question := st.chat_input(placeholder="Enter our question"):
+        # display user message in chat message container
+        with st.chat_message(name="user", avatar="💅"):
+            st.markdown(body=question)
+        # add user message to chat message
+        st.session_state.messages.append({"role": "user", "content": question})
+        # add chatbot's response, displaying in message container
+        with st.chat_message(name="ai", avatar="🦖"):
+            st_callback = StreamlitCallbackHandler(st.container())
+            response = agent.invoke(input=question, callbacks=[st_callback])
+            st.write(response)
+        # add chatbot's response to chat history
+        st.session_state.messages.append({"role": "ai", "content": response})
+
+
+if __name__ == "__main__":
+    run_app()

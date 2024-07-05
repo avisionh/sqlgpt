@@ -18,5 +18,5 @@ make setup-local
 ## Interacting with chatbot
 To ask the Llama3 a question about your data, run the following in your terminal:
 ```commandline
-poetry run streamlit run main.py
+poetry run streamlit run app.py
 ```

@@ -1,6 +1,6 @@
-PROJECT = "<your_project>"
-DATASET = "<your_dataset>"
-SERVICE_ACCOUNT_FILE = "gcp_service_account_key.json"
+PROJECT = "bigquery-public-data"
+DATASET = "bls"
+SERVICE_ACCOUNT_FILE = "dummy-project-428510-4418e1b4f381.json"
 SQLALCHEMY_URL = (
     f"bigquery://{PROJECT}/{DATASET}?credentials_path={SERVICE_ACCOUNT_FILE}"
 )

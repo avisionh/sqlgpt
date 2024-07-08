@@ -10,4 +10,5 @@ RUN pip install poetry
 RUN poetry install --no-interaction --no-ansi
 
 EXPOSE 8501
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["poetry", "run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["sleep", "100000"]

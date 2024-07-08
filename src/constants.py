@@ -1,6 +1,10 @@
+import os
+
 PROJECT = "bigquery-public-data"
 DATASET = "bls"
-SERVICE_ACCOUNT_FILE = "profiles/dummy-project-428510-4418e1b4f381.json"
+SERVICE_ACCOUNT_FILE = os.getenv(
+    "GCP_SERVICE_ACCOUNT_KEY", "profiles/gcp_service_account_key.json"
+)
 SQLALCHEMY_URL = (
     f"bigquery://{PROJECT}/{DATASET}?credentials_path={SERVICE_ACCOUNT_FILE}"
 )

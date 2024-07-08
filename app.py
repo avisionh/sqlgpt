@@ -14,6 +14,7 @@ from langchain_community.callbacks import StreamlitCallbackHandler
 def run_app():
     st.title(body="sqlGPT")
 
+    # backend
     db = SQLDatabase.from_uri(
         database_uri=constants.SQLALCHEMY_URL, sample_rows_in_table_info=15
     )
@@ -34,6 +35,7 @@ def run_app():
         verbose=True,
     )
 
+    # frontend
     # initialise chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []

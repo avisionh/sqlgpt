@@ -1,0 +1,6 @@
+profiles/
+.pre-commit-config.yaml
+.secrets.baseline
+.github/
+.venv/
+data/

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  ollama-container:
+    image: ollama/ollama
+    volumes:
+      - ./data/ollama:/root/.ollama
+    ports:
+      - 11434:11434
+  streamlit-app:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      GCP_SERVICE_ACCOUNT_KEY: /run/secrets/bigquery_key
+    secrets:
+      - bigquery_key
+    ports:
+      - 8501:8501
+secrets:
+  bigquery_key:
+    file: profiles/gcp_service_account_key.json

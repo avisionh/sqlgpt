@@ -6,9 +6,7 @@ Download Ollama from the official website [here](https://ollama.com/download).
 
 In your terminal, download Llama 3 via `ollama pull llama3` (takes ~30 mins to download).
 
-Create a service account key for the project in GCP that you want to access [here](https://cloud.google.com/iam/docs/keys-create-delete). Then store this in as `gcp_service_account_key.json`.
-
-Update the `src/constants.py` file with the project and dataset that the service account key has access to.
+Create a service account key for the project in GCP that you want to access [here](https://cloud.google.com/iam/docs/keys-create-delete). Then store this in as `profiles/gcp_service_account_key.json`.
 
 Now set-up the project by running the following:
 ```commandline
@@ -19,4 +17,21 @@ make setup-local
 To ask the Llama3 a question about your data, run the following in your terminal:
 ```commandline
 poetry run streamlit run app.py
+```
+
+## Docker
+To build the Docker container and image for this, run the below:
+```commandline
+docker-compose up
+```
+When not in use, run:
+```commandline
+docker-compose down
+```
+
+You can inspect the actual container via:
+```commandline
+docker container list
+# find the ID of your docker container
+docker exec -it <container_id> bash
 ```
